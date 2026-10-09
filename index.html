@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Koushik Vatsavayi: electrical engineering projects, demos and build notes.">
+<title>Koushik Vatsavayi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one left-aligned column on engineering-paper ground. Each project is a wide sheet with demo
+   media on the left and the write-up on the right. The page ends on a drawing title block whose
+   revision letter goes up each time a project is added. */
+:root {
+  --paper: #F1F4F0;
+  --sheet: #F9FBF8;
+  --ink: #16201A;
+  --ink-soft: #4E5D55;
+  --line: #C2CDC5;
+  --line-faint: #DEE6E0;
+  --frame: #16201A;
+  --accent: #1A6744;
+
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --text-2xs: 0.5625rem;
+  --text-xs: 0.6875rem;
+  --text-sm: 0.875rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-name: clamp(2rem, 1.1rem + 4vw, 3.6rem);
+  --measure: 62ch;
+  --section-gap: clamp(3.5rem, 8vw, 6rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0E1411;
+    --sheet: #131B17;
+    --ink: #E2E9E4;
+    --ink-soft: #9AA8A0;
+    --line: #2F3C35;
+    --line-faint: #1B2520;
+    --frame: #6E7D75;
+    --accent: #7FC3A0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0E1411;
+  --sheet: #131B17;
+  --ink: #E2E9E4;
+  --ink-soft: #9AA8A0;
+  --line: #2F3C35;
+  --line-faint: #1B2520;
+  --frame: #6E7D75;
+  --accent: #7FC3A0;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 70rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+  padding-block: clamp(1.25rem, 3vw, 2rem) 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}
+.page-main { display: flex; flex-direction: column; gap: var(--section-gap); }
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Masthead */
+.masthead { display: flex; flex-direction: column; gap: clamp(2.5rem, 7vw, 4.5rem); }
+
+.topline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+.topline nav { display: flex; gap: 1.5rem; }
+.topline nav a { color: var(--ink); text-decoration: none; }
+.topline nav a:hover { color: var(--accent); }
+
+.intro-block { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 760;
+  font-size: var(--text-name);
+  line-height: 0.98;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.spec {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.5rem;
+  color: var(--ink-soft);
+}
+
+.intro {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-lg);
+  line-height: 1.55;
+}
+
+/* Sections */
+.section { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.section-head { display: flex; align-items: center; gap: 1rem; }
+.section-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 680;
+  font-size: var(--text-xl);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.section-head .rule { flex: 1; min-width: 1rem; border-bottom: 1px solid var(--line); }
+.section-head .count { color: var(--ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.lede { margin: 0; max-width: var(--measure); color: var(--ink-soft); }
+
+/* Project sheet (empty slot until the first project arrives) */
+.slot { border: 1px solid var(--line); background: var(--sheet); }
+
+.slot-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.85rem;
+  padding: 0.6rem clamp(1rem, 3vw, 1.75rem);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+.ref {
+  color: var(--ink);
+  font-weight: 500;
+  border: 1px solid var(--frame);
+  padding: 0.1rem 0.45rem;
+}
+
+.slot-body {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 3.5vw, 2.75rem);
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+@media (max-width: 760px) {
+  .slot-body { grid-template-columns: minmax(0, 1fr); }
+}
+
+.slot-media { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.75rem; min-width: 0; }
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px dashed var(--line);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--line-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-faint) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: -1px -1px;
+  color: var(--ink-soft);
+}
+.frame.video { aspect-ratio: 16 / 9; }
+.frame svg { display: block; }
+.frame .label {
+  background: var(--paper);
+  padding: 0.2rem 0.45rem;
+  text-align: center;
+}
+
+.thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.thumbs .frame { aspect-ratio: 4 / 3; }
+.thumbs .label { font-size: var(--text-2xs); }
+
+.slot-text { display: flex; flex-direction: column; gap: 1.4rem; min-width: 0; }
+
+.slot-title-group { display: flex; flex-direction: column; gap: 0.3rem; }
+.slot-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 650;
+  font-size: var(--text-lg);
+  line-height: 1.2;
+}
+.slot-status { color: var(--ink-soft); }
+
+.notes { margin: 0; display: flex; flex-direction: column; gap: 1rem; }
+.notes div { display: flex; flex-direction: column; gap: 0.15rem; }
+.notes dt { font-weight: 700; }
+.notes dd { margin: 0; color: var(--ink-soft); }
+
+.specs { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.specs caption { text-align: left; padding-bottom: 0.45rem; color: var(--ink-soft); }
+.specs th, .specs td { text-align: left; padding: 0.42rem 0; border-top: 1px solid var(--line-faint); }
+.specs tr:last-child th, .specs tr:last-child td { border-bottom: 1px solid var(--line-faint); }
+.specs th { width: 42%; font-weight: 400; color: var(--ink-soft); }
+.specs td { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-soft); }
+
+/* Recognition */
+.honors { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.honors li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.2rem 2rem;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.honors .what { font-weight: 700; min-width: 0; }
+.honors .where { color: var(--ink-soft); min-width: 0; }
+
+/* Colophon: revision table + drawing title block */
+.colophon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.revs-wrap { min-width: 0; max-width: 100%; overflow-x: auto; }
+.revs {
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.revs th {
+  font-weight: 500;
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.3rem 1.25rem 0.3rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.revs td { padding: 0.4rem 1.25rem 0.4rem 0; vertical-align: top; }
+.revs td:first-child { color: var(--ink); }
+.revs td:nth-child(-n+2) { white-space: nowrap; }
+
+.titleblock {
+  width: min(100%, 30rem);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--frame);
+  border: 1px solid var(--frame);
+}
+.tb {
+  background: var(--paper);
+  padding: 0.45rem 0.65rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.tb.title { grid-column: 1 / -1; }
+.tb .k {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.tb .v {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.tb.title .v {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+@media (max-width: 30rem) {
+  .titleblock { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="topline">
+      <span class="mono">Project portfolio · Rev A</span>
+      <nav class="mono" aria-label="Sections">
+        <a href="#projects">Projects</a>
+        <a href="#recognition">Recognition</a>
+      </nav>
+    </div>
+
+    <div class="intro-block">
+      <h1 class="name">Koushik Vatsavayi</h1>
+      <p class="spec mono">
+        <span>Electrical engineering</span>
+        <span>Class of 2027</span>
+        <span>Frisco, Texas</span>
+      </p>
+      <p class="intro">I'm a high school senior applying to study electrical engineering. I use this site to document what I build, including how each project works and what went wrong while I was building it.</p>
+    </div>
+  </header>
+
+  <main class="page-main">
+
+    <section class="section" id="projects" aria-labelledby="projects-h">
+      <div class="section-head">
+        <h2 id="projects-h">Projects</h2>
+        <span class="rule" aria-hidden="true"></span>
+        <span class="count mono">0 published</span>
+      </div>
+
+      <p class="lede">The first write-ups are in progress. Each project will get a demo video, build photos, a schematic, and a parts list.</p>
+
+      <article class="slot" aria-label="Open project slot">
+        <div class="slot-head mono">
+          <span class="ref">P1</span>
+          <span>Open slot</span>
+        </div>
+
+        <div class="slot-body">
+          <div class="slot-media">
+            <div class="frame video">
+              <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5.5v13l10.5-6.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              </svg>
+              <span class="label mono">Demo video</span>
+            </div>
+            <div class="thumbs">
+              <div class="frame"><span class="label mono">Photo</span></div>
+              <div class="frame"><span class="label mono">Photo</span></div>
+              <div class="frame"><span class="label mono">Schematic</span></div>
+            </div>
+          </div>
+
+          <div class="slot-text">
+            <div class="slot-title-group">
+              <h3 class="slot-title">Next project</h3>
+              <span class="slot-status mono">Write-up in progress</span>
+            </div>
+
+            <dl class="notes">
+              <div><dt>What it does</dt><dd>The problem it solves and who it's for.</dd></div>
+              <div><dt>How it works</dt><dd>The circuit, the parts, and the code that runs it.</dd></div>
+              <div><dt>What went wrong</dt><dd>The hardest bug and how I fixed it.</dd></div>
+            </dl>
+
+            <table class="specs">
+              <caption class="mono">Specs</caption>
+              <tbody>
+                <tr><th scope="row">Controller</th><td>—</td></tr>
+                <tr><th scope="row">Sensors</th><td>—</td></tr>
+                <tr><th scope="row">Outputs</th><td>—</td></tr>
+                <tr><th scope="row">Power</th><td>—</td></tr>
+                <tr><th scope="row">Code</th><td>—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section" id="recognition" aria-labelledby="recognition-h">
+      <div class="section-head">
+        <h2 id="recognition-h">Recognition</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+
+      <ul class="honors">
+        <li>
+          <span class="what">2nd Place, Stasis</span>
+          <span class="where mono">Hack Club hardware hackathon · Austin, TX · May 2026</span>
+        </li>
+        <li>
+          <span class="what">AP Capstone Diploma</span>
+          <span class="where mono">College Board · 2026</span>
+        </li>
+        <li>
+          <span class="what">AP Scholar with Distinction</span>
+          <span class="where mono">College Board · 2026</span>
+        </li>
+        <li>
+          <span class="what">National Merit Commended Student</span>
+          <span class="where mono">National Merit Scholarship Corp. · 2026</span>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="colophon">
+    <div class="revs-wrap">
+      <table class="revs">
+        <thead>
+          <tr><th scope="col">Rev</th><th scope="col">Date</th><th scope="col">Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A</td><td>2026-10-09</td><td>First release. Project slots open.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="titleblock" role="group" aria-label="Title block">
+      <div class="tb title"><span class="k">Title</span><span class="v">Koushik Vatsavayi · Projects</span></div>
+      <div class="tb"><span class="k">Drawn by</span><span class="v">K. Vatsavayi</span></div>
+      <div class="tb"><span class="k">Date</span><span class="v">2026-10-09</span></div>
+      <div class="tb"><span class="k">Rev</span><span class="v">A</span></div>
+      <div class="tb"><span class="k">Sheet</span><span class="v">1 of 1</span></div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
